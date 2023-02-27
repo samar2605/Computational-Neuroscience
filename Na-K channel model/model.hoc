@@ -1,0 +1,18 @@
+load_file("nrngui.hoc")
+
+create soma
+access soma
+
+soma nseg = 1
+soma diam = 18.8
+soma L = 18.8
+soma Ra = 123.0
+
+soma insert na
+soma.ena = 71.5
+
+soma insert k
+soma.ek = -89.1
+
+
+tstop = 300
