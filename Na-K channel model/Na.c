@@ -1,10 +1,10 @@
-/* Created by Language version: 7.7.0 */
+/* Created by Language version: 7.5.0 */
 /* NOT VECTORIZED */
 #define NRN_VECTORIZED 0
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "mech_api.h"
+#include "scoplib_ansi.h"
 #undef PI
 #define nil 0
 #include "md1redef.h"
@@ -22,16 +22,16 @@ extern int _method3;
 extern double hoc_Exp(double);
 #endif
  
-#define nrn_init _nrn_init__na
-#define _nrn_initial _nrn_initial__na
-#define nrn_cur _nrn_cur__na
-#define _nrn_current _nrn_current__na
-#define nrn_jacob _nrn_jacob__na
-#define nrn_state _nrn_state__na
-#define _net_receive _net_receive__na 
-#define _f_rates _f_rates__na 
-#define rates rates__na 
-#define states states__na 
+#define nrn_init _nrn_init__Na
+#define _nrn_initial _nrn_initial__Na
+#define nrn_cur _nrn_cur__Na
+#define _nrn_current _nrn_current__Na
+#define nrn_jacob _nrn_jacob__Na
+#define nrn_state _nrn_state__Na
+#define _net_receive _net_receive__Na 
+#define _f_rates _f_rates__Na 
+#define rates rates__Na 
+#define states states__Na 
  
 #define _threadargscomma_ /**/
 #define _threadargsprotocomma_ /**/
@@ -47,29 +47,17 @@ extern double hoc_Exp(double);
 #define t nrn_threads->_t
 #define dt nrn_threads->_dt
 #define gna_bar _p[0]
-#define gna_bar_columnindex 0
 #define m _p[1]
-#define m_columnindex 1
 #define h _p[2]
-#define h_columnindex 2
 #define ina _p[3]
-#define ina_columnindex 3
 #define ena _p[4]
-#define ena_columnindex 4
 #define malpha _p[5]
-#define malpha_columnindex 5
 #define mbeta _p[6]
-#define mbeta_columnindex 6
 #define halpha _p[7]
-#define halpha_columnindex 7
 #define hbeta _p[8]
-#define hbeta_columnindex 8
 #define Dm _p[9]
-#define Dm_columnindex 9
 #define Dh _p[10]
-#define Dh_columnindex 10
 #define _g _p[11]
-#define _g_columnindex 11
 #define _ion_ena	*_ppvar[0]._pval
 #define _ion_ina	*_ppvar[1]._pval
 #define _ion_dinadv	*_ppvar[2]._pval
@@ -97,15 +85,6 @@ extern void hoc_register_limits(int, HocParmLimits*);
 extern void hoc_register_units(int, HocParmUnits*);
 extern void nrn_promote(Prop*, int, int);
 extern Memb_func* memb_func;
- 
-#define NMODL_TEXT 1
-#if NMODL_TEXT
-static const char* nmodl_file_text;
-static const char* nmodl_filename;
-extern void hoc_reg_nmodl_text(int, const char*);
-extern void hoc_reg_nmodl_filename(int, const char*);
-#endif
-
  extern void _nrn_setdata_reg(int, void(*)(Prop*));
  static void _setdata(Prop* _prop) {
  _p = _prop->param; _ppvar = _prop->dparam;
@@ -118,44 +97,43 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 }
  /* connect user functions to hoc names */
  static VoidFunc hoc_intfunc[] = {
- "setdata_na", _hoc_setdata,
- "rates_na", _hoc_rates,
+ "setdata_Na", _hoc_setdata,
+ "rates_Na", _hoc_rates,
  0, 0
 };
  /* declare global and static user variables */
-#define htau htau_na
+#define htau htau_Na
  double htau = 0;
-#define hinf hinf_na
+#define hinf hinf_Na
  double hinf = 0;
-#define mtau mtau_na
+#define mtau mtau_Na
  double mtau = 0;
-#define minf minf_na
+#define minf minf_Na
  double minf = 0;
-#define usetable usetable_na
+#define usetable usetable_Na
  double usetable = 1;
  /* some parameters have upper and lower limits */
  static HocParmLimits _hoc_parm_limits[] = {
- "usetable_na", 0, 1,
+ "usetable_Na", 0, 1,
  0,0,0
 };
  static HocParmUnits _hoc_parm_units[] = {
- "mtau_na", "ms",
- "htau_na", "ms",
- "gna_bar_na", "mho/cm2",
+ "mtau_Na", "ms",
+ "htau_Na", "ms",
+ "gna_bar_Na", "mho/cm2",
  0,0
 };
  static double delta_t = 0.01;
  static double h0 = 0;
- static double maxerr = 1e-05;
  static double m0 = 0;
  static double v = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
- "minf_na", &minf_na,
- "hinf_na", &hinf_na,
- "mtau_na", &mtau_na,
- "htau_na", &htau_na,
- "usetable_na", &usetable_na,
+ "minf_Na", &minf_Na,
+ "hinf_Na", &hinf_Na,
+ "mtau_Na", &mtau_Na,
+ "htau_Na", &htau_Na,
+ "usetable_Na", &usetable_Na,
  0,0
 };
  static DoubVec hoc_vdoub[] = {
@@ -163,27 +141,27 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 };
  static double _sav_indep;
  static void nrn_alloc(Prop*);
-static void  nrn_init(NrnThread*, _Memb_list*, int);
-static void nrn_state(NrnThread*, _Memb_list*, int);
- static void nrn_cur(NrnThread*, _Memb_list*, int);
-static void  nrn_jacob(NrnThread*, _Memb_list*, int);
+static void  nrn_init(_NrnThread*, _Memb_list*, int);
+static void nrn_state(_NrnThread*, _Memb_list*, int);
+ static void nrn_cur(_NrnThread*, _Memb_list*, int);
+static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  
 static int _ode_count(int);
 static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
-static void _ode_spec(NrnThread*, _Memb_list*, int);
-static void _ode_matsol(NrnThread*, _Memb_list*, int);
+static void _ode_spec(_NrnThread*, _Memb_list*, int);
+static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
 #define _cvode_ieq _ppvar[3]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
- "7.7.0",
-"na",
- "gna_bar_na",
+ "7.5.0",
+"Na",
+ "gna_bar_Na",
  0,
  0,
- "m_na",
- "h_na",
+ "m_Na",
+ "h_Na",
  0,
  0};
  static Symbol* _na_sym;
@@ -217,7 +195,7 @@ static void nrn_alloc(Prop* _prop) {
  static void _update_ion_pointer(Datum*);
  extern Symbol* hoc_lookup(const char*);
 extern void _nrn_thread_reg(int, int, void(*)(Datum*));
-extern void _nrn_thread_table_reg(int, void(*)(double*, Datum*, Datum*, NrnThread*, int));
+extern void _nrn_thread_table_reg(int, void(*)(double*, Datum*, Datum*, _NrnThread*, int));
 extern void hoc_register_tolerance(int, HocStateTolerance*, Symbol***);
 extern void _cvode_abstol( Symbol**, double*, int);
 
@@ -230,10 +208,6 @@ extern void _cvode_abstol( Symbol**, double*, int);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
      _nrn_thread_reg(_mechtype, 2, _update_ion_pointer);
- #if NMODL_TEXT
-  hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
-  hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
-#endif
   hoc_register_prop_size(_mechtype, 12, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "na_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "na_ion");
@@ -242,7 +216,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 na Na.mod\n");
+ 	ivoc_help("help ?1 Na D:/Sem 6/Theoritical and Computational Neuroscience/Assignments/Na-K channel model/Na.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -263,7 +237,6 @@ static int rates(double);
 static int _ode_spec1(_threadargsproto_);
 /*static int _ode_matsol1(_threadargsproto_);*/
  static void _n_rates(double);
- static double *_temp1;
  static int _slist1[2], _dlist1[2];
  static int states(_threadargsproto_);
  
@@ -283,14 +256,14 @@ static int _ode_spec1(_threadargsproto_);
   return 0;
 }
  /*END CVODE*/
- 
-static int states () {_reset=0;
+ static int states () {_reset=0;
  {
    rates ( _threadargscomma_ v ) ;
-   Dm = ( minf - m ) / mtau ;
-   Dh = ( hinf - h ) / htau ;
+    m = m + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / mtau)))*(- ( ( ( minf ) ) / mtau ) / ( ( ( ( - 1.0 ) ) ) / mtau ) - m) ;
+    h = h + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / htau)))*(- ( ( ( hinf ) ) / htau ) / ( ( ( ( - 1.0 ) ) ) / htau ) - h) ;
    }
- return _reset;}
+  return 0;
+}
  static double _mfac_rates, _tmin_rates;
  static void _check_rates();
  static void _check_rates() {
@@ -370,7 +343,7 @@ static void _hoc_rates(void) {
  
 static int _ode_count(int _type){ return 2;}
  
-static void _ode_spec(NrnThread* _nt, _Memb_list* _ml, int _type) {
+static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
    Datum* _thread;
    Node* _nd; double _v; int _iml, _cntml;
   _cntml = _ml->_nodecount;
@@ -396,7 +369,7 @@ static void _ode_matsol_instance1(_threadargsproto_) {
  _ode_matsol1 ();
  }
  
-static void _ode_matsol(NrnThread* _nt, _Memb_list* _ml, int _type) {
+static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
    Datum* _thread;
    Node* _nd; double _v; int _iml, _cntml;
   _cntml = _ml->_nodecount;
@@ -432,7 +405,7 @@ static void initmodel() {
 }
 }
 
-static void nrn_init(NrnThread* _nt, _Memb_list* _ml, int _type){
+static void nrn_init(_NrnThread* _nt, _Memb_list* _ml, int _type){
 Node *_nd; double _v; int* _ni; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
@@ -455,14 +428,14 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  }}
 
 static double _nrn_current(double _v){double _current=0.;v=_v;{ {
-   ina = gna_bar * m * m * m * h * ( v - ena ) ;
+   ina = ( 0.001 ) * gna_bar * m * m * m * h * ( v - ena ) ;
    }
  _current += ina;
 
 } return _current;
 }
 
-static void nrn_cur(NrnThread* _nt, _Memb_list* _ml, int _type){
+static void nrn_cur(_NrnThread* _nt, _Memb_list* _ml, int _type){
 Node *_nd; int* _ni; double _rhs, _v; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
@@ -499,7 +472,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  
 }}
 
-static void nrn_jacob(NrnThread* _nt, _Memb_list* _ml, int _type){
+static void nrn_jacob(_NrnThread* _nt, _Memb_list* _ml, int _type){
 Node *_nd; int* _ni; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
@@ -519,10 +492,8 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  
 }}
 
-static void nrn_state(NrnThread* _nt, _Memb_list* _ml, int _type){
+static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type){
 Node *_nd; double _v = 0.0; int* _ni; int _iml, _cntml;
-double _dtsav = dt;
-if (secondorder) { dt *= 0.5; }
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
@@ -542,16 +513,10 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  v=_v;
 {
   ena = _ion_ena;
- { error =  adrunge(_ninits, 2, _slist1, _dlist1, _p, &t, dt, states, &_temp1, maxerr);
- if(error){fprintf(stderr,"at line 37 in file Na.mod:\n    SOLVE states \n"); nrn_complain(_p); abort_run(error);}
-    if (secondorder) {
-    int _i;
-    for (_i = 0; _i < 2; ++_i) {
-      _p[_slist1[_i]] += dt*_p[_dlist1[_i]];
-    }}
-  states();
+ { error =  states();
+ if(error){fprintf(stderr,"at line 37 in file Na.mod:\n    SOLVE states METHOD cnexp\n"); nrn_complain(_p); abort_run(error);}
  } }}
- dt = _dtsav;
+
 }
 
 static void terminal(){}
@@ -559,88 +524,11 @@ static void terminal(){}
 static void _initlists() {
  int _i; static int _first = 1;
   if (!_first) return;
- _slist1[0] = m_columnindex;  _dlist1[0] = Dm_columnindex;
- _slist1[1] = h_columnindex;  _dlist1[1] = Dh_columnindex;
+ _slist1[0] = &(m) - _p;  _dlist1[0] = &(Dm) - _p;
+ _slist1[1] = &(h) - _p;  _dlist1[1] = &(Dh) - _p;
    _t_minf = makevector(201*sizeof(double));
    _t_hinf = makevector(201*sizeof(double));
    _t_mtau = makevector(201*sizeof(double));
    _t_htau = makevector(201*sizeof(double));
 _first = 0;
 }
-
-#if NMODL_TEXT
-static const char* nmodl_filename = "Na.mod";
-static const char* nmodl_file_text = 
-  "TITLE Na channel for HH model\n"
-  "\n"
-  "UNITS {\n"
-  "    (mV) = (millivolt)\n"
-  "    (mA) = (milliamp)\n"
-  "    (mM) = (milli/liter)\n"
-  "}\n"
-  "\n"
-  "NEURON {\n"
-  "    SUFFIX na\n"
-  "    USEION na READ ena WRITE ina\n"
-  "    RANGE gna_bar,gna\n"
-  "    GLOBAL minf, hinf, mtau, htau\n"
-  "}\n"
-  "\n"
-  "PARAMETER {\n"
-  "    gna_bar = 120 (mho/cm2)\n"
-  "}\n"
-  "\n"
-  "ASSIGNED {\n"
-  "    v (mV)\n"
-  "    ina (mA/cm2)\n"
-  "    ena (mV)\n"
-  "    minf\n"
-  "    hinf\n"
-  "    mtau (ms)\n"
-  "    htau (ms)\n"
-  "    malpha mbeta halpha hbeta (/ms)\n"
-  "}\n"
-  "\n"
-  "STATE {\n"
-  "    m\n"
-  "    h\n"
-  "}\n"
-  "\n"
-  "BREAKPOINT {\n"
-  "    SOLVE states \n"
-  "    ina = gna_bar*m*m*m*h*(v - ena)\n"
-  "}\n"
-  "\n"
-  "\n"
-  "INITIAL {\n"
-  "    rates(v)\n"
-  "    m = minf\n"
-  "    h = hinf\n"
-  "}\n"
-  "\n"
-  "DERIVATIVE states {\n"
-  "    rates(v)\n"
-  "    m' = (minf - m)/mtau\n"
-  "    h' = (hinf - h)/htau\n"
-  "}\n"
-  "\n"
-  "UNITSOFF\n"
-  "\n"
-  "PROCEDURE rates(v (mV)) {\n"
-  "    TABLE minf, hinf, mtau, htau FROM -100 TO 100 WITH 200\n"
-  "    malpha=(0.1*(v+25))/(exp((v+25)/10)-1)\n"
-  "    mbeta=4*exp(v/18)\n"
-  "\n"
-  "    halpha=0.07*exp(v/20)\n"
-  "    hbeta=1/(exp((v+30)/10)+1)\n"
-  "    \n"
-  "    mtau = 1/(malpha+mbeta)\n"
-  "    minf = malpha/(malpha+mbeta)\n"
-  "    \n"
-  "    htau = 1/(halpha+hbeta)\n"
-  "    hinf = halpha/(halpha+hbeta)\n"
-  "}\n"
-  "\n"
-  "UNITSON\n"
-  ;
-#endif

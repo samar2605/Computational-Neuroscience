@@ -7,7 +7,7 @@ UNITS {
 }
 
 NEURON {
-    SUFFIX k
+    SUFFIX K
     USEION k READ ek WRITE ik
     RANGE gk_bar,gk
     GLOBAL ninf, ntau
@@ -31,8 +31,8 @@ STATE {
 }
 
 BREAKPOINT {
-    SOLVE states 
-    ik = gk_bar*n*n*n*n*(v - ek)
+    SOLVE states METHOD cnexp
+    ik = (0.001)*gk_bar*n*n*n*n*(v - ek)
 }
 
 

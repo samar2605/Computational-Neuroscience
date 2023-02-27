@@ -7,7 +7,7 @@ UNITS {
 }
 
 NEURON {
-    SUFFIX na
+    SUFFIX Na
     USEION na READ ena WRITE ina
     RANGE gna_bar,gna
     GLOBAL minf, hinf, mtau, htau
@@ -34,8 +34,8 @@ STATE {
 }
 
 BREAKPOINT {
-    SOLVE states 
-    ina = gna_bar*m*m*m*h*(v - ena)
+    SOLVE states METHOD cnexp
+    ina = (0.001)*gna_bar*m*m*m*h*(v - ena)
 }
 
 
