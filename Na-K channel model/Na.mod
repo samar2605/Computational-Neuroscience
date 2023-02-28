@@ -14,7 +14,7 @@ NEURON {
 }
 
 PARAMETER {
-    gna_bar = 120 (mho/cm2)
+    gna_bar = 0.012 (mho/cm2)
 }
 
 ASSIGNED {
@@ -35,7 +35,7 @@ STATE {
 
 BREAKPOINT {
     SOLVE states METHOD cnexp
-    ina = (0.001)*gna_bar*m*m*m*h*(v - ena)
+    ina = gna_bar*m*m*m*h*(v - ena)
 }
 
 

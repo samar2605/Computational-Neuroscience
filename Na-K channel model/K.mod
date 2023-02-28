@@ -14,7 +14,7 @@ NEURON {
 }
 
 PARAMETER {
-    gk_bar = 36 (mho/cm2)
+    gk_bar = 0.036 (mho/cm2)
 }
 
 ASSIGNED {
@@ -32,7 +32,7 @@ STATE {
 
 BREAKPOINT {
     SOLVE states METHOD cnexp
-    ik = (0.001)*gk_bar*n*n*n*n*(v - ek)
+    ik = gk_bar*n*n*n*n*(v - ek)
 }
 
 

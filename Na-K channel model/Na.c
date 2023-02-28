@@ -173,7 +173,7 @@ static void nrn_alloc(Prop* _prop) {
 	double *_p; Datum *_ppvar;
  	_p = nrn_prop_data_alloc(_mechtype, 12, _prop);
  	/*initialize range parameters*/
- 	gna_bar = 120;
+ 	gna_bar = 0.012;
  	_prop->param = _p;
  	_prop->param_size = 12;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
@@ -428,7 +428,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  }}
 
 static double _nrn_current(double _v){double _current=0.;v=_v;{ {
-   ina = ( 0.001 ) * gna_bar * m * m * m * h * ( v - ena ) ;
+   ina = gna_bar * m * m * m * h * ( v - ena ) ;
    }
  _current += ina;
 
